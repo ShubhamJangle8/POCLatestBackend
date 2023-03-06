@@ -23,10 +23,14 @@ public class RequestCreationDto {
 	@NotNull(message = "Cluster ID Is Null")
 	@NotBlank(message = "Cluster ID Is Blank")
 	private String clusterId;
+	
+	private String clusterName;
 
 	@NotNull(message = "Sub Cluster ID Is Null")
 	@NotBlank(message = "Sub Cluster ID Is Blank")
 	private String subClusterId;
+
+	private String subClusterName;
 
 	@NotNull(message = "Grade ID Is Null")
 	@NotBlank(message = "Grade_ID Is Blank")
@@ -64,6 +68,8 @@ public class RequestCreationDto {
 	@NotNull(message = "Created Date Is Null")
 	private String createdDate;
 
+	private String lastModifiedDate;
+
 	@NotNull(message = "Owner ID Is Null")
 	@NotBlank(message = "Owner ID Is Blank")
 	private String ownerId;
@@ -96,9 +102,27 @@ public class RequestCreationDto {
 	
 	private String comment;
 	
-//	@NotNull(message = "Tags is Null")
-//	@NotBlank(message = "Tags is Blank")
-//	private List<String> tags;
+	@NotNull(message = "Tags is Null")
+	//@NotBlank(message = "Tags is Blank")
+	private List<String> chips;
+	
+	private String tags;
+
+	@Override
+	public String toString() {
+		return "RequestCreationDto [reqId=" + reqId + ", clusterId=" + clusterId + ", clusterName=" + clusterName
+				+ ", subClusterId=" + subClusterId + ", subClusterName=" + subClusterName + ", gradeId=" + gradeId
+				+ ", techStack=" + techStack + ", coreSkill=" + coreSkill + ", projectCode=" + projectCode + ", landed="
+				+ landed + ", reasonForDemand=" + reasonForDemand + ", ifReplacement=" + ifReplacement
+				+ ", skillDetails=" + skillDetails + ", startDate=" + startDate + ", createdDate=" + createdDate
+				+ ", lastModifiedDate=" + lastModifiedDate + ", ownerId=" + ownerId + ", ownerName=" + ownerName
+				+ ", workLocation=" + workLocation + ", area=" + area + ", serviceLine=" + serviceLine
+				+ ", bucketSkills=" + bucketSkills + ", status=" + status + ", soNumber=" + soNumber + ", comment="
+				+ comment + ", chips=" + chips + ", tags=" + tags + "]";
+	}
+	
+	
+
 }
 
 

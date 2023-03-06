@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,9 @@ public class RequestServiceImpl implements RequestService {
 		ModelMapper modelMapper = new ModelMapper();
 		Request req = new Request();
 		EntityDtoConversion convert = new EntityDtoConversion();
+		String cstags = requestCreationDto.getChips().stream().map(String::valueOf)
+		        .collect(Collectors.joining(","));
+		requestCreationDto.setTags(cstags);
 		req = modelMapper.map(requestCreationDto, Request.class);
 		req = requestCrudRepo.save(req);
 		RequestCreationResponseDto request = convert.EntityToDtoConvertion(req, CrudMessages.message.get("SuccessMsg"));
@@ -81,6 +85,7 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public RequestCreationResponseDto getRequestById(String reqId) {
+		System.out.println("hello");
 		Optional<Request> request = requestCrudRepo.findById(reqId);
 		if (!request.isPresent()) {
 			throw new RequestNotFoundException(CrudMessages.message.get("RequestNotFoundMsg"));

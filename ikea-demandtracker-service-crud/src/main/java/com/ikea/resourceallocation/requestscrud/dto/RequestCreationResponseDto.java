@@ -67,7 +67,7 @@ public class RequestCreationResponseDto {
 
 	private String comment;
 	
-//	private List<String> tags;
+	private List<String> tags;
 
 	private String toastrMessage;
 
@@ -105,7 +105,7 @@ public class RequestCreationResponseDto {
 		this.comment = builder.comment;
 		this.createdAt = builder.createdAt;
 		this.updatedAt = builder.updatedAt;
-//		this.tags = builder.tags;
+		this.tags = builder.tags;
 		this.toastrMessage = builder.toastrMessage;
 	}
 
@@ -162,7 +162,7 @@ public class RequestCreationResponseDto {
 
 		private String comment;
 		
-//		private List<String> tags;
+		private List<String> tags;
 
 		@JsonFormat(pattern = "yyyy-MM-dd")
 		private Date createdAt;
@@ -307,10 +307,10 @@ public class RequestCreationResponseDto {
 			return this;
 		}
 		
-//		public RequestCreationResponseDtoBuilder setTags(List<String> tags) {
-//			this.tags = tags;
-//			return this;
-//		}
+		public RequestCreationResponseDtoBuilder setTags(List<String> tags) {
+			this.tags = tags;
+			return this;
+		}
 
 		public RequestCreationResponseDtoBuilder setToastrMessage(String toastrMessage) {
 			this.toastrMessage = toastrMessage;

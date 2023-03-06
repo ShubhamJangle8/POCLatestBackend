@@ -1,21 +1,23 @@
 package com.ikea.resourceallocation.requestscrud.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikea.resourceallocation.requestscrud.customexception.RequestCreaationFailedException;
@@ -24,9 +26,10 @@ import com.ikea.resourceallocation.requestscrud.dto.RequestCreationResponseDto;
 import com.ikea.resourceallocation.requestscrud.dto.RequestForCopyDto;
 import com.ikea.resourceallocation.requestscrud.dto.RequestsForListPageDto;
 import com.ikea.resourceallocation.requestscrud.messages.CrudMessages;
-import com.ikea.resourceallocation.requestscrud.model.Request;
 import com.ikea.resourceallocation.requestscrud.model.search.RequestFilterCriteria;
 import com.ikea.resourceallocation.requestscrud.service.RequestService;
+import com.ikea.resourceallocation.requestscrud.service.impl.ExcelExporter;
+import com.ikea.resourceallocation.requestscrud.service.impl.PDFExporter;
 
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -84,4 +87,37 @@ public class RequestController {
 			throw new RequestCreaationFailedException(CrudMessages.message.get("InsertionFailedMsg"));
 		}
 	}
+	
+	@PostMapping("/export/excel")
+    public ResponseEntity exportToExcel(HttpServletResponse response, @RequestBody List<RequestCreationDto> requestListCreationDto) throws IOException {
+		response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+         
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Request_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        
+        ExcelExporter excelExporter = new ExcelExporter(requestListCreationDto);
+         
+        excelExporter.export(response);    
+        
+        return ResponseEntity.ok().build();
+    }  
+	
+	@PostMapping("/export/pdf")
+    public ResponseEntity exportToPdf(HttpServletResponse response, @RequestBody List<RequestCreationDto> requestListCreationDto) throws IOException {
+		response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+         
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+         
+        PDFExporter exporter = new PDFExporter(requestListCreationDto);
+        exporter.export(response);
+        
+        return ResponseEntity.ok().build();
+    }  
 }

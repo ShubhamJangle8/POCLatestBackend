@@ -123,8 +123,8 @@ public class Request implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createdAt;
 	
-//	@Column(name = "tags", nullable = true, insertable = true, updatable = true)
-//	private List<String> tags;
+	@Column(name = "tags", nullable = true, insertable = true, updatable = true)
+	private String tags;
 
 	@Column(name = "updated_at", nullable = false, insertable = true, updatable = true)
 	@JsonFormat(pattern = "yyyy-MM-dd")
